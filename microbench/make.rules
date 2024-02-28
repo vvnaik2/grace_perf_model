@@ -1,0 +1,50 @@
+include ../make.config
+
+CC_X86?=gcc
+#CC_ARM?=arm-linux-gnueabi-gcc
+CC_ARMC?=gcc
+CC_RISCV?=~/opt/riscv/bin/riscv64-unknown-elf-gcc
+OPT?=-O3
+
+#-fno-tree-vectorize
+CFLAGS+=${OPT} -I../
+ARM_CFLAGS?=--static -ffp-contract=fast
+
+GCC_VER := $(shell gcc -dumpversion)
+ifeq ($(shell expr $(GCC_VER) \>= 10), 1)
+ARM_CFLAGS += -march=armv8-a+sve2 -msve-vector-bits=128
+endif
+
+default: benchX86
+
+all: ARM  X86
+
+X86: $(BINS_X86)
+
+ARM: $(BINS_ARM)
+
+RISCV: benchRISCV
+
+ifneq ("$(wildcard rand_arr_args.txt)","")
+args := $(shell cat rand_arr_args.txt)
+
+randArr.h: rand_arr_args.txt
+	${PY} ../rand_c_arr.py $(args)
+
+pre_req: randArr.h
+else
+pre_req:
+endif
+
+%.X86: %.c pre_req
+	$(CC_X86) $(CFLAGS) $< --static --std=c99 -lm -o $@
+
+%.ARM: %.c pre_req
+	$(CC_ARMC) $(CFLAGS) $(ARM_CFLAGS) $< --std=c99 -lm -o $@
+
+benchRISCV: bench.c pre_req
+	${CC_RISCV} ${CFLAGS} bench.c --static --std=c99 -lm -o bench.RISCV
+
+clean:
+	rm -f *.X86 *.ARM *.RISCV *.asm *.ASM
+	rm -rf perf_output

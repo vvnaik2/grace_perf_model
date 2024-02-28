@@ -1,0 +1,4 @@
+make.config
+a.out
+*.ARM
+*.pyc

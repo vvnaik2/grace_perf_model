@@ -1,0 +1,18 @@
+gem5 Simulator System.  https://www.gem5.org
+gem5 is copyrighted software; use the --copyright option for details.
+
+gem5 version [DEVELOP-FOR-23.0]
+gem5 compiled Jun 26 2023 23:23:39
+gem5 started Oct  6 2023 11:45:19
+gem5 executing on royal-23, pid 105102
+command line: gem5/build/ALL_MESI_Three_Level/gem5.opt --debug-flags=Exec,Fetch,Decode,Rename,IEW,Commit --debug-file=debug_file.out run_grace.py NPB_SER_BT_Y
+
+gem5 Simulator System.  https://www.gem5.org
+gem5 is copyrighted software; use the --copyright option for details.
+
+gem5 version [DEVELOP-FOR-23.0]
+gem5 compiled Jun 26 2023 23:23:39
+gem5 started Oct  6 2023 11:45:20
+gem5 executing on royal-23, pid 105104
+command line: /home/hegde/ind_study/novoverse/gem5/build/ALL_MESI_Three_Level/gem5.opt -s -c 'from multiprocessing.resource_tracker import main;main(5)'
+
